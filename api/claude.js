@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   // Check API key
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(500).json({
-      error: { message: 'ANTHROPIC_API_KEY not set in Vercel environment variables.' },
+      error: { message: 'ANTHROPIC_API_KEY not set. Copy .env.example to .env and add your key.' },
     })
   }
 

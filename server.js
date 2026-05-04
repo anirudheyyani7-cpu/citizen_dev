@@ -13,6 +13,10 @@ import express from 'express'
 import cors from 'cors'
 import Anthropic from '@anthropic-ai/sdk'
 import dotenv from 'dotenv'
+import { fileURLToPath } from 'url'
+import path from 'path'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 dotenv.config()
 
@@ -57,5 +61,13 @@ app.post('/api/claude', async (req, res) => {
   }
 })
 
+// Serve built React app (production localhost)
+app.use(express.static(path.join(__dirname, 'dist')))
+
+// SPA fallback — React Router handles all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+})
+
 const PORT = process.env.PORT || 3001
-app.listen(PORT, () => console.log(`✈  BIAL Claude relay → http://localhost:${PORT}`))
+app.listen(PORT, () => console.log(`✈  BIAL app → http://localhost:${PORT}`))
